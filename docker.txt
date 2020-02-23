@@ -1,0 +1,380 @@
+Docker — программное обеспечение для автоматизации развёртывания и управления приложениями в средах с поддержкой контейнеризации.
+    Позволяет «упаковать» приложение со всем его окружением и зависимостями в контейнер, который может быть перенесён на любую Linux-систему с поддержкой cgroups в ядре, а также предоставляет среду по управлению контейнерами. 
+Docker — это открытая платформа для разработки, доставки и эксплуатации приложений.
+Docker-machine
+Docker-compose
+
+https://habr.com/ru/post/253877/
+registries (реестр) - хранит образы. Есть публичные и приватные реестры, из которых можно скачать либо загрузить образы.
+    Публичный Docker-реестр — Docker Hub. Там хранится огромная коллекция образов.
+    Образ может быть создан сомастоятельно.
+    Реестры — это компонента распространения.
+image (образ) - это read-only шаблон. Например, образ может содержать операционку Ubuntu c Apache и приложением на ней.
+    Образы используются для создания контейнеров.
+    Docker позволяет легко создавать новые образы, обновлять существующие, или вы можете скачать образы созданные другими людьми.
+    Образы — это компонента сборки docker-а.
+контейнер - похож на директорию. В контейнерах содержится все, что нужно для работы приложения.
+    Каждый контейнер создается из образа. Контейнер может быть создан, запущен, остановлен, перенесен или удален.
+    Каждый контейнер изолирован и является безопасной платформой для приложения.
+    Контейнеры — это компонента работы.
+
+Образы и контейнера в картинках: https://habr.com/ru/post/272145/
+Начало работы: https://habr.com/ru/company/southbridge/blog/350184/
+
+docker info
+sudo find / -name "wp-config.php"
+docker-machine ssh Char
+
+https://docs.Docker.com/machine/reference/create/
+1.  Cоздаем машину Char (Docker-machine довольно мощный инструмент для управления окружениями):
+docker-machine create --driver virtualbox Char
+    --driver, -d "none" драйвер для создания машины.
+        Флаг указываем на каком поставщике (VirtualBox, DigitalOcean, AWS и т. д.) должена быть создана машина и ее имя.
+    Проверяем:
+docker-machine ls
+
+https://docs.Docker.com/machine/reference/ip/
+2.  Получаем IP для второго задания:
+docker-machine ip Char
+
+https://docs.microsoft.com/ru-ru/azure/virtual-machines/linux/Docker-machine
+https://abuzov.ru/set-and-list-environment-variables-in-linux/
+3.  Вначале расмотрим набор переменных окружения, который сообщают нашему локальному Docker-клиенту где искать сервер:
+docker-machine env Char
+    В последней строке расположена подсказка для третьего задания:
+eval $(Docker-machine env Char)
+    На моей машине выглядила так: eval $("D:\Docker Toolbox\docker-machine.exe" env Char)
+    Проверяем:
+docker-machine ls
+    При просмотре списка машина, для которой мы задали переменные окружения, будет отмечена звездочкой в столбике ACTIVE.
+    Мы можем открыть еще одно окно терминала и активировать там другую машину.
+    Переменные среды — переменные, которые доступны для всей системы и наследуются всеми дочерними процессами и оболочками.
+    Переменные оболочки(shell) — переменные, которые применяются только к текущему экземпляру оболочки.
+        Каждая оболочка, такая как zsh и bash, имеет свой собственный набор внутренних переменных.
+    env — команда позволяет запускать другую программу в пользовательской среде без изменения текущей.
+        Если использовать её без дополнительных аргументов, она выведет список текущих переменных среды.
+    printenv - команда выведет на экран все или часть переменных.
+    
+~ Отключить переменные для активной машины: eval $(Docker-machine env -u) ~
+
+https://habr.com/ru/post/310460/
+https://docs.docker.com/engine/reference/commandline/pull/
+4.  Команда pull скачивает образ или репозиторий из регистра Docker и сохраняет его локально (latest):
+docker pull hello-world
+    Проверяем:
+docker image ls
+    Docker Hub — это облачная служба реестра, позволяющая загружать образы Docker, созданные другими людьми.
+
+https://docs.docker.com/engine/reference/commandline/run/
+5.  Запускаем Docker контейнер с образом hello-world (запускаем команду в новом контейнере): 
+docker run hello-world
+    Вывод:
+...
+To generate this message, Docker took the following steps:
+1. The Docker client contacted the Docker daemon.
+2. The Docker daemon pulled the "hello-world" image from the Docker Hub. (amd64)
+3. The Docker daemon created a new container from that image which runs the executable that produces the output you are currently reading.
+4. The Docker daemon streamed that output to the Docker client, which sent it to your terminal.
+...
+    Выводим на экран список всех запущенных контейнеров для проверки:
+docker ps -a
+    В колонке STATUS можно заметить, когда контейнер завершил свою работу.
+
+~ создать контейнер: docker create CONTAINER ID/NAME ~
+~ остановить контейнер: docker stop CONTAINER ID/NAME ~
+~ запустить контейнер: docker start CONTAINER ID/NAME ~
+~ удалить контейнер: docker rm CONTAINER ID/NAME (-f принудительно) ~
+~ удалить контейнер: docker attach CONTAINER ID/NAME ~
+    attach – присоединяет стандартный вход и выход терминала к работающему контейнеру, буквально подключая вас к контейнеру, как к любой виртуальной машине
+~ переименовать контейнер: docker rename CONTAINER ID/NAME NEW NAME~
+
+https://docs.docker.com/network/iptables/
+6.  Скачасиваем образ nginx:
+~ docker pull nginx ~
+    Мануал:
+docker run --help
+    Запускаем контейнер в фоновом режиме, переименовав его на overlord с возможностью самостоятельной перезагрузки и его 80-порт подключаем к порту 5000 Char:
+docker run --detach --name overlord --restart=always --publish 5000:80 nginx
+    --detach, -d запустить контейнер в фоновом режиме и распечатать его идентификатор (ID)
+    --name присвоить контейнеру имя
+    --publish, -p публиковать порты контейнера на хост (порт 80 подключается к порту Char 5000 => HOST PORT:CONTAINER PORT)
+    --restart политика перезапуска параметров
+        no не перезапускать контейнер автоматически при его выходе, по умолчанию
+        on-failure[:max-retries] N перезапусков контейнера, если процесс завершается со статусом != 0, максимум N раз (или постоянно)
+        unless-stopped запускает контейнер при старте демона Docker, если контейнер был активен (не был остановлен ранее)
+        always всегда перезапускает контейнер независимо от состояния текущего и выхода
+    Выводим на экран список всех запущенных контейнеров для проверки:
+docker ps -a
+    Проверяем по топику и вводим в браузере http://<ip-de-char>:5000, в моем случае:
+http://192.168.99.101:5000/ => Welcome to nginx!
+
+~ Проверить команду без скачки образа nginx ~
+
+https://docs.docker.com/engine/reference/commandline/inspect/
+7.  По заданию нужно получить внутренний IP-адрес контейнера overlord без запуска его оболочки и в одну команду:
+docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' overlord
+    inspect возвращает низкоуровневую информацию об объектах Docker
+    --format , -f форматирование вывода по шаблону Go (шаблон все что в фигурных скобках)
+    range поиск из всех сетей
+
+https://habr.com/ru/company/nixys/blog/437372/ про alpine, distroless и поэтапной сборки Docker-образов
+8.  Запускаем оболочку из Alpine контейнера:
+~ docker pull alpine ~
+docker run -it --rm alpine /bin/sh
+    --tty, -t выделить псевдо-TTY (виртуальная консоль)
+    --interactive, -i держите STDIN открытым, даже если он не подключен
+    --rm автоматически удалить контейнер при выходе
+    /bin/sh создание интерактивной оболочки bash в контейнере
+    Alpine Linux — дистрибутив Linux, ориентированный на безопасность, легковесность и нетребовательность к ресурсам.
+
+~ Вроде как без pull сразу устанавливает и запускает ~
+
+https://packages.debian.org/ru/sid/gcc
+https://packages.debian.org/ru/sid/build-essential
+9.  Запускаем оболочку из Debian контейнера:
+docker run -it --rm debian
+    Обновляем пакеты, устанавливаем gcc и git:
+apt-get update
+apt-get upgrade -y
+apt-get install -y gcc git
+    Поиск нужно пакета:
+apt-cache search gcc
+    Проверка в контейнере:
+apt-get install -y vim + простая программа для компиляции
+ls + git clone https://github.com/docker/docker.git + ls
+exit
+    В терминале:
+docker ps -a
+
+https://docs.docker.com/engine/reference/commandline/volume_create/
+https://linux-notes.org/rabota-s-tomami-volumes-v-docker/
+10. Создаем том с названием hatchery:
+docker volume create --name hatchery
+    Volumes — являются механизмом для сохранения данных, создаваемых и используемых Docker контейнерами (с хостевой машины на контейнер).
+    Проверяем:
+docker volume ls
+    Посмотреть информацию:
+docker volume inspect hatchery
+    Расположение:
+var/lib/docker/volumes/hatchery
+~ sudo ls /var/lib/docker/volumes/hatchery ~
+~ sudo ls /var/lib/docker/volumes/hatchery/_data ~
+
+11. Перечислите все тома Docker созданные на машине:
+docker volume ls
+
+https://github.com/docker-library/docs/tree/master/mysql/
+https://dev.mysql.com/doc/refman/8.0/en/native-pluggable-authentication.html
+12. Запускаем в фоновом режиме MySQL контейнер с именем spawning-pool с возможностью перезапуска в случае ошибки и хранящийся в томе hatchery.
+    Имя базы данных: zerglings и пароль: Kerrigan:
+docker run --detach --name spawning-pool --restart=on-failure -e MYSQL_ROOT_PASSWORD=Kerrigan -e MYSQL_DATABASE=zerglings -v hatchery:/var/lib/mysql mysql 
+    --env , -e установить переменные среды
+    --volume , -v привязать установленный том
+    Клиентские программы MySQL по умолчанию используют mysql_native_password: --default-authentication-plugin=mysql_native_password
+    Проверка:
+docker ps -a
+sudo ls /var/lib/docker/volumes/hatchery/_data => появились файлы MySQL
+docker inspect spawning-pool | grep Destination => /var/lib/mysql
+docker inspect --format='{{.HostConfig.RestartPolicy}}' spawning-pool 
+    Запустить контейнер и проверить начиличие БД zerglings:
+docker exec -it spawning-pool mysql -uroot -p => пароль: Kerrigan
+show databases;
+exit
+    exec - применяется к запущенному контейнеру, запускает новый процесс внутри пространства процессов контейнера
+
+13. Выводим переменные среды контейнера spawning-pool, чтобы убедиться, что все правильно настроено:
+docker inspect --format='{{.Config.Env}}' spawning-pool
+
+~ docker exec spawning-pool printenv ~
+
+https://docs.docker.com/network/links/
+книга Парминдер Сингх Кочер "микросервисы и контейнеры Docker"
+https://docs.docker.com/network/bridge/
+14. Запускаем в фоновом режиме WordPress контейнер с именем lair, его порт 80 связываем с портом 8080 виртуальной машины и добавляем доступ к базе spawning-pool:
+~ docker run --detach --name lair --publish 8080:80 --link spawning-pool:mysql wordpress ~
+    --link обмен информацией между контейнерами по внутренней сети docker, невидимой для хоста (устарело!)
+docker network create my-docker-bridge
+docker network disconnect bridge spawning-pool
+docker network connect my-docker-bridge spawning-pool
+docker run --detach --name lair --publish 8080:80 --network my-docker-bridge -e WORDPRESS_DB_HOST=spawning-pool -e WORDPRESS_DB_USER=root -e WORDPRESS_DB_PASSWORD=Kerrigan -e WORDPRESS_DB_NAME=wordpress -e WORDPRESS_TABLE_PREFIX=wp_ wordpress
+    bridge создает внутренюю скрытую сеть для взаимодействия между контейнерами
+    Просмотр списка сетей на машине:
+docker network ls
+
+~ удаленить: docker network rm my-net ~
+~ возможно стоит дополнительно настроить: https://docs.docker.com/compose/wordpress/ ~
+
+https://hub.docker.com/r/phpmyadmin/phpmyadmin/
+15. Запускаем в фоновом режиме phpmyadmin контейнер с именем roach-warden, его порт 80 должен быть связан с портом 8081 виртуальной машины, и он должен иметь доступ к базе данных контейнера spawning-pool:
+~ docker run --name roach-warden -d --link spawning-pool:db -p 8081:80 phpmyadmin/phpmyadmin ~
+docker run --detach --name roach-warden --publish 8081:80 --network my-docker-bridge -e PMA_HOST=spawning-pool phpmyadmin/phpmyadmin
+
+~ логин: root пароль: Kerrigan ~
+
+https://docs.docker.com/engine/reference/commandline/logs/
+16. Для просмотра журнала контейнера spawning-pool в реальном времени, не запуская его оболочкуб нужна команда:
+docker logs --follow spawning-pool
+~ docker logs --follow roach-warden ~
+    --follow, -f опция покажет вывод журнала в реальном времени
+
+17. Поcмотреть все активные в данный момент контейнеры на виртуальной машине Char:
+docker ps
+
+https://docs.docker.com/engine/reference/commandline/restart/
+18. Для перезапуска контейнера Overlord воспользуемся командой restart:
+docker restart overlord
+    Проверка:
+docker exec -it overlord /bin/sh -c "kill 1"
+docker inspect -f '{{.RestartCount}}' overlord => 1
+
+https://docs.docker.com/engine/reference/commandline/exec/
+https://flask.palletsprojects.com/en/1.0.x/quickstart/
+19. Запустим контейнер Python с именем Abathur версии 2-slim, его папка /root будет связана с папкой HOME нашего хосте, а его порт 3000 будет связан с портом 3000 нашей виртуальной машины.
+    Добавим в настройки микро-фреймворк Flask в его последней версии. Обязательное условие html-страница с текстом «Hello World» в теге <h1>:
+docker run --detach -it --name Abathur -v $HOME:/root --publish 3000:3000 python:2-slim
+docker exec Abathur pip install Flask
+echo -e 'from flask import Flask\napp = Flask(__name__)\n@app.route('\''/'\'')\ndef hello_world():\n\treturn '\''<h1>Hello, World!</h1>'\''' > $HOME/hello-world.py
+docker exec -e FLASK_APP=/root/hello.py Abathur flask run --host=0.0.0.0 --port 3000
+    pip — система управления пакетами, которая используется для установки и управления программными пакетами, написанными на Python
+    Проверка хоста:
+docker inspect --format='{{(index (index .NetworkSettings.Ports "3000/tcp") 0).HostIp}}' Abathur
+    Проверка программы на компьютере:
+curl $(docker-machine ip Char):3000
+    curl - это инструмент для передачи данных с или на сервер, используя один из поддерживаемых протоколов
+    В веб-браузере:
+http://192.168.99.101:3000/
+
+~ попробовать на маке использовать echo без -e ~
+
+https://docs.docker.com/engine/swarm/swarm-tutorial/create-swarm/
+https://habr.com/ru/company/redmadrobot/blog/318866/
+20. Создаем локальный рой и делаем Char его менеджером:
+docker swarm init --advertise-addr $(docker-machine ip Char)
+    --advertise-addr флаг настраивает узел менеджера для публикации его адреса как ~192.168.99.100
+    Проверяем:
+docker node ls (HOSTNAME: Char MANAGER STATUS: Leader + ID)
+
+    Вывод команды:
+    ...
+    To add a worker to this swarm, run the following command:
+        docker swarm join --token SWMTKN-1-31lvanqutwxmh6zmrh6w2zxkexu4rep98993j866d6p2n8rpxr-2o6i4m7mbjaz4812bbon1lh2u 192.168.99.101:2377
+    To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+~ наверное лучше по ssh подключаться и запускать команду ~
+
+21. Для выполнения задания мы создаем еще одну машину с Doker используя драйвер virtualbox и называем ее Aiur:
+docker-machine create --driver virtualbox Aiur
+    Проверка:
+docker-machine ls
+
+https://docs.docker.com/engine/swarm/swarm-tutorial/add-nodes/
+22. Превращаем Aiur в раба локального роя тотального лидера Char (команды для захвата контроля над Aiur не запрашиваются):
+docker-machine ssh Aiur "docker swarm join --token $(docker swarm join-token worker --quiet) $(docker-machine ip Char):2377"
+    --quiet, -q отображать только токен
+    При создании роя выводятся команды-подсказки для дальнейшей работы (задание 20).
+    Проверка:
+docker node ls (HOSTNAME: Aiur MANAGER STATUS: пусто (не Leader))
+
+https://docs.docker.com/network/overlay/
+https://habr.com/ru/post/334004/
+23. Создаем внутреннюю сеть типа overlay с названием overmind:
+docker network create -d overlay overmind
+    --driver, -d драйвер для управления сетью, по умолчанию "bridge"
+    Overlay-сети используются в контексте кластеров (Docker Swarm), где виртуальная сеть, которую используют контейнеры, связывает несколько физических хостов, на которых запущен Docker.
+        Когда вы запускаете контейнер на swarm-кластере (как часть сервиса), множество сетей присоединяется по умолчанию, и каждая из них соответствует разным требованиям связи.
+    Overlay-сеть создает подсеть, которую могут использовать контейнеры в разных хостах swarm-кластера.
+        Контейнеры на разных физических хостах могут обмениваться данными по overlay-сети (если все они прикреплены к одной сети).
+    Проверяем:
+docker network ls
+
+https://docs.docker.com/engine/reference/commandline/service_create/
+https://hub.docker.com/_/rabbitmq
+24. Запускаем rabbitmq сервис под именем orbital-command, вносим пользователя и пароль для службы RabbitMQ в сети overmind:
+docker service create --name orbital-command --network overmind -e RABBITMQ_DEFAULT_USER=root -e RABBITMQ_DEFAULT_PASS=root rabbitmq
+    Проверка:
+docker service ls (REPLICAS 1/1)
+docker service ps orbital-command (DESIRED STATE Running)
+docker service inspect -f '{{.Spec.TaskTemplate.ContainerSpec}}' orbital-command (пользователь и пароль)
+
+~ логин: root пароль: root ~
+
+25. Выводим лист со всеми сервисами роя:
+docker service ls
+
+https://hub.docker.com/r/42school/engineering-bay/
+26. Создаем сервис engineering-bay в сети overmind в котором запустим сервис 42school/engineering-bay в двух репликах (hub.docker.com: логин и пароль дожны быть как в orbital-command):
+docker service create --name engineering-bay --network overmind --replicas 2 -e OC_USERNAME=root -e OC_PASSWD=root 42school/engineering-bay
+    --replicas количество заданий
+    Проверка:
+docker service ls (REPLICAS 2/2)
+docker service ps engineering-bay (DESIRED STATE Running в двух репликах)
+docker service inspect -f '{{.Spec.TaskTemplate.ContainerSpec}}' engineering-bay (пользователь и пароль)
+
+~ логин: root пароль: root ~
+
+https://zarbis.me/docker-swarm/
+27. Получить в режиме реального времени логи одной из задач службы engineering-bay:
+docker service logs --follow engineering-bay | grep engineering-bay.1
+    --follow, -f опция покажет вывод журнала в реальном времени
+
+    Наличие нескольких реплик решает две проблемы: отказоустойчивость и масштабируемость.
+    Смотря какую пролемы выхотите решить столько реплик и делайте.
+    Для отказоустойчивости может быть достаточно двух реплик или даже одной.
+    Для масштабируемости - зависит от реализации микросервисов (масштабируем ли алгоритм)...
+
+https://hub.docker.com/r/42school/marine-squad
+28. Создаем сервис marines в сети overmind в котором запустим сервис 42school/marine-squad в двух репликах (hub.docker.com: логин и пароль дожны быть как в orbital-command):
+docker service create --name marines --network overmind --replicas 2 -e OC_USERNAME=root -e OC_PASSWD=root 42school/marine-squad
+    Проверка:
+docker service ls (REPLICAS 2/2)
+docker service ps marines (DESIRED STATE Running в двух репликах)
+docker service inspect -f '{{.Spec.TaskTemplate.ContainerSpec}}' marines (пользователь и пароль)
+
+~ логин: root пароль: root ~
+
+29. Посмотрим все задачи службы marines:
+docker service ps marines
+    Проверка смерти зергов:
+docker service logs --follow marines
+
+https://docs.docker.com/engine/reference/commandline/service_update/
+https://docs.docker.com/engine/reference/commandline/service_scale/
+30. Увеличим количество копий службы marines до двадцати:
+docker service update --replicas=20 marines
+    Проверка:
+docker service ps marines (20 реплик)
+docker service logs --follow marines | grep marines.20
+
+~ docker service scale marines=20 ~
+~ почему разбивается на 2 машины Aiur и Char, попробовать создать 11 реплик ~
+~ --rollback откат к предыдущей версии ~
+
+https://docs.docker.com/engine/reference/commandline/service_rm/
+https://docs.docker.com/engine/reference/commandline/service_ls/
+31. Принудительно завершим работу и удалим все службы роя:
+docker service rm $(docker service ls --quiet)
+    --quiet, -q показать только IDs
+
+https://docs.docker.com/engine/reference/commandline/rm/
+https://docs.docker.com/engine/reference/commandline/ps/
+32. Принудительно завершим работу и удалим все контейнеры (независимо от их статуса):
+docker rm --force $(docker ps -a --quiet)
+    --force, -f принудительное удаление работающего контейнера (использует SIGKILL)
+    --all , -a показать все контейнеры, по умолчанию выводит только запущенные
+    --quiet, -q показать только IDs
+    Проверка:
+docker ps -a
+
+https://docs.docker.com/engine/reference/commandline/rmi/
+https://docs.docker.com/engine/reference/commandline/images/
+33. Удалим все образы контейнеров, хранящиеся на виртуальной машине Char:
+docker rmi --force $(docker images -a --quiet)
+    Проверка:
+docker images ls
+
+~ в задании не указанно удалить принудительно ~
+
+34. Удалим виртуальную машину Aiur без использования rm -rf:
+docker-machine rm --force Aiur
+    Проверка:
+docker-machine ls

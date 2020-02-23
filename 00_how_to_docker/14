@@ -1,0 +1,4 @@
+docker network create my-docker-bridge
+docker network disconnect bridge spawning-pool
+docker network connect my-docker-bridge spawning-pool
+docker run --detach --name lair --publish 8080:80 --network my-docker-bridge -e WORDPRESS_DB_HOST=spawning-pool -e WORDPRESS_DB_USER=root -e WORDPRESS_DB_PASSWORD=Kerrigan -e WORDPRESS_DB_NAME=wordpress -e WORDPRESS_TABLE_PREFIX=wp_ wordpress

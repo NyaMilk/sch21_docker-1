@@ -1,0 +1,1 @@
+docker run --detach --name roach-warden --publish 8081:80 --network my-docker-bridge -e PMA_HOST=spawning-pool phpmyadmin/phpmyadmin
