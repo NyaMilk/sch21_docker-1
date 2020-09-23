@@ -1,0 +1,449 @@
+@media screen and (min-width: 990px) and (max-width: 1199px) {
+    body {
+        min-width: 990px;
+    }
+    .container {
+        width: 970px;
+    }
+    .gallery_list a:nth-child(3n + 1) {
+        padding-left: 0;
+    }
+    .gallery_list a:nth-child(3n) {
+        padding-right: 0;
+    }
+    /* photo.php */
+    .page-img .container {
+        min-height: 900px;
+    }
+    .page-img__photo {
+        width: 400px;
+    }
+    .page-img__photo-block {
+        height: 400px;
+    }
+    .page-img__photo-info {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: start;
+        height: 110px;
+    }
+    .page-img__comments {
+        left: 460px;
+    }
+    .page-img__comments-set {
+        width: 500px;
+    }
+    .page-img__comments-set textarea {
+        width: 385px;
+    }
+    .page-img__comments-list {
+        width: 500px;
+        max-height: 720px;
+        margin-bottom: 20px;
+    }
+    .page_info_user {
+        width: 415px;
+    }
+    .page_info_user span {
+        width: 375px;
+    }
+    .page-img__photo-description {
+        width: 400px;
+    }
+    .page-img__comments-set__form .span_comment {
+        left: 15%
+    }
+    .profile-addphoto
+    {
+        margin-top: 30%;
+    }
+    .profile-data h2,
+    .profile-data span {
+        width: 495px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 989px) {
+    body {
+        min-width: 760px;
+    }
+    .container {
+        width: 740px;
+    }
+    .login {
+        min-height: 790px;
+    }
+    .gallery_list {
+        min-height: 740px;
+    }
+    .gallery_item, .profile-photos__link-img {
+        height: 235px;
+    }
+    .gallery_list a:nth-child(3n + 1) {
+        padding-left: 0;
+    }
+    .gallery_list a:nth-child(3n) {
+        padding-right: 0;
+    }
+    .profile-photos {
+        min-height: 245px;
+    }
+    .edit-page__form-img {
+        width: 300px;
+    }
+    /* photo.php */
+    .page-img .container {
+        min-height: 700px;
+    }
+    .page-img__photo {
+        width: 300px;
+    }
+    .page-img__photo-block {
+        height: 300px;
+    }
+    .page-img__photo-info {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: start;
+        height: 110px;
+    }
+    .page-img__comments {
+        left: 330px;
+    }
+    .page-img__comments-set {
+        width: 400px;
+    }
+    .page-img__comments-set textarea {
+        width: 285px;
+    }
+    .page-img__comments-list {
+        max-height: 530px;
+        width: 400px;
+        margin-bottom: 20px;
+    }
+    .page_info_user {
+        width: 315px;
+    }
+    .page_info_user span {
+        width: 275px;
+    }
+    .page-img__comments-set__form .span_comment {
+        left: 9%;
+    }
+    .count-message {
+        margin-bottom: 20px;
+    }
+    .page-img__photo-description {
+        width: 300px;
+    }
+    .profile-data h2 {
+        width: 295px;
+    }
+    .profile-data span
+    {
+        width: 450px;
+    }
+}
+
+@media screen and (min-width: 480px) and (max-width: 767px) {
+    body {
+        min-width: 480px;
+    }
+    .container {
+        width: 460px;
+    }
+    .login {
+        min-height: 700px;
+    }
+    .login_wrap::before {
+        background: none;
+    }
+    .gallery_list {
+        min-height: 455px;
+    }
+    .photo__link {
+        padding: 1px 3px;
+    }
+    .gallery_item, .profile-photos__link-img {
+        height: 145px;
+    }
+    .gallery_list a:nth-child(3n + 1) {
+        padding-left: 0;
+    }
+    .gallery_list a:nth-child(3n) {
+        padding-right: 0;
+    }
+    .profile-photos {
+        min-height: 155px;
+    }
+    .profile-head__img, .profile-head__img img {
+        width: 200px;
+        height: 200px;
+    }
+    .profile-data {
+        margin-top: 90px;
+    }
+    .profile-btn {
+        right: 82px;
+        top: -70px;
+    }
+    .profile-nav {
+        margin-top: 0;
+    }
+    .profile-addphoto {
+        height: 50px;
+    }
+    .edit-page__form {
+        flex-direction: column;
+    }
+    .edit-page__form-text h2:first-child {
+        margin-top: 35px;
+    }
+    .edit-page__form-img {
+        width: 440px;
+    }
+    .profile-data h2,
+    .profile-data span {
+        width: 245px;
+    }
+    /* photo.php */
+    .page-img .container {
+        flex-direction: column;
+    }
+    .page-img__photo {
+        width: 440px;
+    }
+    .page-img__photo-block {
+        height: 440px;
+    }
+    .page-img__comments {
+        position: relative;
+        margin-top: 40px;
+        left: 0;
+    }
+    .page-img__comments-set {
+        width: 440px;
+    }
+    .page-img__comments-set h2 {
+        text-align: center;
+    }
+    .page-img__comments-set textarea {
+        width: 320px;
+    }
+    .page-img__comments-list {
+        max-height: 500px;
+        width: 440px;
+        margin-bottom: 20px;
+    }
+    .page_info_user {
+        width: 355px;
+    }
+    .page_info_user span {
+        width: 320px;
+    }
+    .page-img__comments-set__form .span_comment {
+        left: 15%;
+    }
+    .count-message {
+        margin-bottom: 20px;
+    }
+    .page-img__photo-description {
+        width: 440px;
+    }
+    /* add.php */
+    .photo-edit__canvas {
+        width: 420px;
+        height: 420px;
+    }
+    .photo-upload p {
+        font-size: 14px;
+    }
+    .photo-carousel div {
+        min-width: 160px;
+    }
+    .photo-filters .photo-carousel img, .photo-stickers .photo-carousel img {
+        height: 140px;
+    }
+}
+
+@media screen and (min-width: 0) and (max-width: 479px) {
+    body {
+        min-width: 320px;
+        /* max-width: 480px; */
+    }
+    .container {
+        width: 320px;
+    }
+    h1 {
+        font-size: 28px;
+    }
+    .login {
+        min-height: 625px;
+        background: #e6e7ed;
+    }
+    .login_wrap {
+        padding: 0 20px;
+        width: 100%;
+        min-height: 540px;
+        box-shadow: none;
+    }
+    .login_wrap::before {
+        background: none;
+    }
+    .header .container, .footer .container {
+        flex-direction: column;
+    }
+    .header-navigation__list, .footer-navigation__list {
+        justify-content: center;
+    }
+    .header h1, .footer span {
+        text-align: center;
+    }
+    .footer span {
+        padding-bottom: 20px;
+    }
+    .gallery_list {
+        min-height: 450px;
+    }
+    .photo__link, .profile-photos__link {
+        flex: 0 0 50%;
+        padding: 1px 3px;
+    }
+    .gallery_item, .profile-photos__link-img {
+        height: 145px;
+    }
+    /* me.php */
+    .profile-photos {
+        min-height: 155px;
+    }
+    .profile-head {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+    }
+    .profile-head__img, .profile-head__img img {
+        width: 200px;
+        height: 200px;
+    }
+    .profile-data {
+        margin: 90px 0 0;
+    }
+    .profile-btn {
+        right: 25px;
+        top: -70px;
+    }
+    .profile-nav {
+        margin-top: 0;
+    }
+    .profile-addphoto {
+        height: 50px;
+    }
+    .edit-page__form {
+        flex-direction: column;
+    }
+    .edit-page__form-text h2:first-child {
+        margin-top: 35px;
+    }
+    .edit-page__form-img {
+        width: 300px;
+    }
+    /* photo.php */
+    .page-img .container {
+        flex-direction: column;
+    }
+    .page-img__photo {
+        width: 300px;
+    }
+    .page-img__photo-block {
+        height: 300px;
+    }
+    .page-img__comments {
+        position: relative;
+        margin-top: 40px;
+        left: 0;
+    }
+    .page-img__photo-info {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: start;
+        height: 110px;
+    }
+    .page-img__comments-set textarea {
+        width: 300px;
+    }
+    .page-img__comments-set {
+        width: 300px;
+    }
+    .page-img__comments-set h2 {
+        text-align: center;
+    }
+    .page-img__comments-set .page-img__comments-set__form {
+        display: block;
+    }
+    .page-img__comments-set__form {
+        text-align: center;
+    }
+    .page-img__comments-set__form .btn-save {
+        margin-top: 10px;
+    }
+    .page-img__comments-list {
+        max-height: 500px;
+        width: 300px;
+        margin-bottom: 20px;
+    }
+    .page_info_user {
+        width: 210px;
+    }
+    .page_info_user span {
+        width: 170px;
+    }
+    .page-img__photo-user p {
+        width: 300px;
+    }
+    .page-img_delete {
+        top: 20px;
+    }
+    .page-img__comments-set__form .span_comment {
+        left: 6%;
+    }
+    .count-message {
+        margin-bottom: 20px;
+    }
+    .page-img__photo-description {
+        width: 300px;
+    }
+    /* add.php */
+    .photo-edit__canvas {
+        width: 300px;
+        height: 300px;
+    }
+    .photo-upload p {
+        font-size: 14px;
+    }
+    .photo-carousel div {
+        min-width: 160px;
+    }
+    .photo-filters .photo-carousel img, .photo-stickers .photo-carousel img {
+        height: 140px;
+    }
+    .photo-edit .photo-dsc .span_photo {
+        left: 30px;
+    }
+    .profile-data h2,
+    .profile-data span {
+        width: 245px;
+    }
+}
+
+@media (min-width: 768px) {
+    .modal-content {
+        -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    }
+}
+
+@media (min-width: 576px) {
+    .modal-dialog {
+        max-width: 430px;
+    }
+}

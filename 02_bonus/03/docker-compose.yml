@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+    www:
+        build: src/php
+        ports: 
+            - "8080:80"
+        volumes:
+            - ./src/camagru:/var/www/html/
+        links:
+            - db
+        networks:
+            - default
+    db:
+        image: mysql:8.0
+        ports: 
+            - "3306:3306"
+        command: --default-authentication-plugin=mysql_native_password
+        environment:
+            MYSQL_DATABASE: camagru
+            MYSQL_USER: super
+            MYSQL_PASSWORD: 1234
+            MYSQL_ROOT_PASSWORD: test
+        volumes:
+            - ./mysql:/docker-entrypoint-initdb.d
+            - ./conf:/etc/mysql/conf.d
+            - persistent:/var/lib/mysql
+        networks:
+            - default
+            
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        links: 
+            - db:db
+        ports:
+            - 8000:80
+        environment:
+            MYSQL_USER: super
+            MYSQL_PASSWORD: 1234
+            MYSQL_ROOT_PASSWORD: test
+volumes:
+    persistent:
+
+# src/camagru/config поменять ip на актуальный вм
