@@ -5,9 +5,9 @@ ENV TS3SERVER_LICENSE=accept
 RUN apt-get update && \
 	apt-get upgrade -y && \
 	apt-get install -y wget bzip2 && \
-	wget https://files.teamspeak-services.com/releases/server/3.11.0/teamspeak3-server_linux_amd64-3.11.0.tar.bz2 && \
-	tar -jxvf teamspeak3-server_linux_amd64-3.11.0.tar.bz2 && \
-	rm -rf teamspeak3-server_linux_amd64-3.11.0.tar.bz2 && \
+	wget https://files.teamspeak-services.com/releases/server/3.12.1/teamspeak3-server_linux_amd64-3.12.1.tar.bz2 && \
+	tar -jxvf teamspeak3-server_linux_amd64-3.12.1.tar.bz2 && \
+	rm -rf teamspeak3-server_linux_amd64-3.12.1.tar.bz2 && \
 	mv teamspeak3-server_linux_amd64 /home/teamspeak3-server_linux_amd64 && \
 	rm -rf /var/lib/apt/lists/*
 
